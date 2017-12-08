@@ -21,4 +21,16 @@ Identifying the causes of changes ? whether positive reductions in homicides or 
 Since crime has been falling in most areas over the last decade, we will focus on identifying predictors of decreases in the murder rate, rather than the predictors of the outlier increases of the last two years.  
 
 
+## Data
+
+### Census DataWe use census data from 2006-2016. This data englobes and includes estimates of the population?s characteristics. We use a subdivision of Metropolitan Statistical Areas of the US, as this is the relevant unit for the study. For the purpose of this project we selected a subgroup of variables that might be relevant to the crime level of the region. See the next section for our method for choosing predictors. 
+
+### Crime DataWe scraped crime data from the FBI for each of the MSAs. The data we used to create our database are:- Total Reported Murders: number of murders that were reported by the MSA (might have not been 100% reporting)- Estimated Murders: estimate variable of the total number of murders for MSAs that had less than 100% reporting- Murder Rate: number of murders for every 100,000 inhabitants
+
+In this project, we focus mainly on the murder rate. 
+
+### Other DataWe use external data sources on access to firearms and presence of firearms. Evidence suggests that areas with more firearms have higher rates of homicide (Hepburn et al 2004). We thus use large datasets to determine if MSAs with tighter laws regarding gun access and lower prevalence of gun ownership have lower homicide rates. We use two datasets to do this: - Firearms Provisions in US States (Bouchet, 2017)- Federal Firearm Licenses (ATF, 2017 via Bilgour et al 2017)
+
+
+
 
