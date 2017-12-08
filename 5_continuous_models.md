@@ -1,7 +1,6 @@
 ---
-title: Score Dataframe
+title: Murder Rate Models
 notebook: 5_continuous_models.ipynb
-nav_include: 1
 ---
 
 ## Contents
@@ -9,21 +8,17 @@ nav_include: 1
 *  
 {: toc}
 
-## Continuous models for predicting number of murders in an MSA
 
-### Author: Marla 
-#### Last modified by: Lydia
-#### Last modified: Dec 7 2017
 
-This notebook takes the crime, census, and gun law data and uses it to predict the number of murders in a given MSA. 
+**What are the major predictors of murder rates in the United States?**
 
-We will use three main models for this prediction and select the best among them. The models we will explore are: 
-- OLS with all predictors 
-- Stepwise regression with forwad and backward selection
-- Regularization with Ridge/Lasso using cross validation to choose the optimal regularization parameters
-- KNN
+Here we look at murder rates as the outcome and use census and gun law data as predictors. We use four main models for this prediction. The models we explore are: 
+- OLS 
+- Ridge regression
+- LASSO regression
+- kNN
 
-### 0 Import libraries
+## Import libraries
 
 
 
@@ -69,42 +64,7 @@ from scipy import stats
       from pandas.core import datetools
 
 
-### 1 Data set up 
-
-In this section we split our data into training and test sets and select out the variables we will use as our predictors and outcome of interest. 
-
-##### Outcome
-Our outcome of interest is murders. This data come from the FBI crime database. There are 3 different outcome variables we could potentially use.
-- Total murders
-- Estimated murders
-- Murder rate. 
-
-We do the set up for all 3 but we will focus mostly on murder rate.
-
-#### Predictors 
-Our predictors come from 2 sources the census data and federal government data on gun laws. 
-
-*Gun Laws*
-- To start we use all of the data on gun laws. These are data with dummies for whether each state has a given gun regulation. We may choose to aggregate these up into categories of gun legislation at a later point. 
-
-*Census Data*
-- We selected which census variable to use based on the evidence from our liturature review and the results of our EDA. This lead us to choose variables on the following issues:
-
-*Question for us, do we want to use racially disag for these as much as possible or not?*
-   
-   - Racial composition
-   - Age structure
-   - Dependecy ratio
-   - Sex ratio
-   - Family structure (single parents)
-   - Family structure (household size)
-   - Family structure (marriage rates)
-   - School enrollment (public vs private)
-   - Educational attainment (for 25+)
-   - Poverty rates by racial group
-   - Income brackets
-   - Unemployment by racial groups
-   - Home ownership
+## Data set up 
 
 
 
@@ -418,7 +378,7 @@ X_test=data_test[predictors]
 ```
 
 
-## 2 Variable selection using LASSO
+## Variable selection using LASSO
 
 
 
@@ -520,6 +480,7 @@ for x in neg[0]:
 
 
 ```python
+#drop unimportant coefficients from LASSO
 X_train = X_train.drop(zero_coef, axis=1)
 X_test = X_test.drop(zero_coef, axis=1)
 X_train.shape
@@ -533,12 +494,12 @@ X_train.shape
 
 
 
-## 3 Models
+## Models
 
 
 
 ```python
-## OLS
+#OLS
 LinearReg = LinearRegression(fit_intercept=True)
 LinearReg.fit(X_train, y_rate_train)
 np.mean(cross_val_score(LinearReg, X_train, y_rate_train, cv=5))
@@ -579,7 +540,7 @@ LASSO_scores = pd.Series([lasso_cv.score(X_train, y_rate_train), lasso_cv.score(
 
 
 ```python
-## kNN
+#kNN
 klist = {'n_neighbors':[2, 5, 10, 20, 40, 50]}
 knn_cv = GridSearchCV(KNeighborsRegressor(), param_grid=[klist], cv=10)
 knn_cv.fit(X_train, y_rate_train)
@@ -592,6 +553,7 @@ kNN_scores = pd.Series([knn_cv.score(X_train, y_rate_train), knn_cv.score(X_test
 
 
 ```python
+#Score Dataframe
 score_df = pd.DataFrame({'OLS': OLS_scores, 'Ridge': Ridge_scores,
                          'LASSO': LASSO_scores,'kNN': kNN_scores})
 score_df
@@ -649,6 +611,84 @@ score_df
 
 
 ```python
-
+xtrain_c = sm.add_constant(X_train)
+xtest_c = sm.add_constant(X_test)
 ```
+
+
+
+
+```python
+iterations = 100
+
+B_boot = np.zeros((xtrain_c.shape[1],100))
+
+for i in range(iterations):
+    #sample with replacement from X_train
+    boot_rows = np.random.choice(range(xtrain_c.shape[0]), size=xtrain_c.shape[0], replace=True)
+    X_train_boot = xtrain_c.values[boot_rows]
+    y_train_boot = y_rate_train.values[boot_rows]
+
+    #fit
+    lm_boot = LinearRegression(fit_intercept=False)
+    lm_boot.fit(X_train_boot, y_train_boot)
+    B_boot[:,i] = lm_boot.coef_
+```
+
+
+
+
+```python
+B_ci_upper = np.percentile(B_boot, 97.5, axis=1)
+B_ci_lower = np.percentile(B_boot, 2.5, axis=1)
+```
+
+
+
+
+```python
+sig_i = []
+print ("OLS regression model: features significant at 5% level")
+
+#if ci contains 0, then insignificant
+for i in range(xtrain_c.shape[1]):
+    if B_ci_upper[i]<0 or B_ci_lower[i]>0:
+        sig_i.append(i)
+
+#print significant predictors
+for i in sig_i:
+    print(xtrain_c.columns[i])
+```
+
+
+    OLS regression model: features significant at 5% level
+    const
+    age21longgunpossess
+    ccbackgroundnics
+    ccrevoke
+    dealerh
+    drugmisdemeanor
+    lockd
+    opencarryh
+    opencarrypermith
+    permitconcealed
+    stalking
+    pct_white
+    pct_black
+    pct_foreign_citizen
+    log_pop
+    sex_ratio
+    families_singledad
+    families_singlemom
+    pct15up_widowed
+    pct15up_separated
+    pct_enroll_private
+    pct25up_somecol
+    fam_cash_assist
+    pct_disabled20_64
+    unemployed_white
+    pct16_manuf
+    AK
+    MI
+    OK
 

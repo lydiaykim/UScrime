@@ -4,7 +4,7 @@ title: Predicting and Preventing Murder in the U.S.
 
 
 
-## Research question
+## Research questions
 1. What are the most important predictors of reductions in murder rates in Metropolitan areas of the US between 2006 and 2016? 
 1. From among these, which are the most important policy measures that law enforcement officials can adopt to reduce murder rates? 
 
@@ -19,3 +19,6 @@ Popular and policy journalists writing at the time of the inauguration pointed o
 Identifying the causes of changes ? whether positive reductions in homicides or the more troubling increases we have seen in some areas in the last two years ? is a key policy question for law enforcement officials. Our project will use a variety of publicly available data sources to identify predictors of increases and decreases in crime rates across metropolitan areas in the US.  
 
 Since crime has been falling in most areas over the last decade, we will focus on identifying predictors of decreases in the murder rate, rather than the predictors of the outlier increases of the last two years.  
+
+
+
