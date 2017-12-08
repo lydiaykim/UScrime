@@ -1,7 +1,7 @@
 ---
 title: References
-notebook: 8_references.ipynb
-nav_include: 5
+notebook: 9_references.ipynb
+nav_include: 6
 ---
 
 ## Contents

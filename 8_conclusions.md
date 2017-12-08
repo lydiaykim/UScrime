@@ -1,7 +1,7 @@
 ---
 title: Conclusions
-notebook: 9_conclusions.ipynb
-nav_include: 6
+notebook: 8_conclusions.ipynb
+nav_include: 5
 ---
 
 ## Contents
