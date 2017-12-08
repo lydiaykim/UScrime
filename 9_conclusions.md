@@ -1,0 +1,32 @@
+---
+title: Conclusions
+notebook: 9_conclusions.ipynb
+nav_include: 6
+---
+
+## Contents
+{:.no_toc}
+*  
+{: toc}
+
+
+We produced a continuous models to predict murder rates in metropolitan areas a categorical model to predict if a metropolitan area would have a high murder rate in a given year. 
+
+The results of our continuous analysis produced a list of predictors that are associated with murder rates. We used Lasso regression to identify the most important predictors, and then used OLS with bootstrapping to generate standard errors that allowed us to isolate the predictors that were most important, and then we were able to use bootstrapping with OLS estimators to determine which predictors had a statistically significant correlation with murder rates. As we would expect, most of the statistically significant predictors were related to gun laws. Others  related to racial composition, family structure, income, and employment. 
+
+To further refine our analysis we then proceeded to construct a classification model that predicts high murder rates. This model found that a similar set of predictors can predict high murder rates, including many gun laws, marriage rates, and disabilty status. 
+
+The results found in both the continuous and categorization model are both consistent with the literature review. This can give us more confidence about the analysis made and the decisions taken when doing this study. Furthermore, the results found in this analysis are relevant for public policy decision. For example, looking at the results in the classification model, we can see that the percent of the population with disability in a working age is significant for murder rates. This fact can be a suggestion to make us analyze the current programs made to target this population. It might be important to understand what are the job opportunities for people with disability and what are the challenges that they face. Addressing them might be relevant not only to reduce crime rates but also reduce poverty and increase social cohesion. Additionally, the results can, by looking at the trend of population growth and other characteristics like the sex ratio, give us idea of future trends in crime and murder rates in MSAs. As a result policy makers could be one step ahead and focus on areas that may have future risks and make prevention policies in order to avoid the increase in murder rates. Other information that might be relevant for policy makers is the importance of the creation of legislation that discourages gun use, particularly among young adults.
+
+These results indicate that the most important steps policy makers can take to impact crime rates are to enact more gun control legislations, which is consistent with findings from the literature. Other demographic and economic factors are also important, but since those are harder to for policy makers to influence, particularly in the short run, gun control legislation is the most promising policy path based on this analysis. 
+
+Given how intractable the issue of gun control legislation is in the US political landscape, future analysis should focus on gathering additional data to identify other variables over which policy makers can exert control, that might be able associated with reduced crime rates. Areas to explore based on our literature review include indicators of housing and social cohesion.
+
+Overall, this was an interesting project that allow us to use highly technical statistical analysis and use information to ask and answer relevant social issues. As a result, it gave us the necessary to do informed policy decisions and improve the public service delivery.
+
+
+
+```python
+
+```
+
