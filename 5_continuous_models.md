@@ -1,6 +1,7 @@
 ---
 title: Murder Rate Models
 notebook: 5_continuous_models.ipynb
+nav_include: 3
 ---
 
 ## Contents
